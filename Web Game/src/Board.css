@@ -1,0 +1,25 @@
+.board {
+  display: grid;
+  gap: 2px;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  background: #eee;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.player {
+  width: 80%;
+  height: 80%;
+  background-color: #4287f5;
+  border-radius: 50%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+}
+
+/* Comment */
