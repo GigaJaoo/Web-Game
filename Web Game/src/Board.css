@@ -12,12 +12,43 @@
   position: relative;
 }
 
+.cell.center {
+  background-color: #4287f5;
+}
+
+.cell.resource {
+  background-color: #c4c4c4;
+}
+
+.cell.cause {
+  background-color: #c88;
+}
+
+.cell.obstacle {
+  background-color: #444;
+}
+
 .player {
-  width: 80%;
-  height: 80%;
+  width: 75%;
+  height: 75%;
   background-color: #4287f5;
   border-radius: 50%;
+  border-style: solid;
+  border-color: black;
   position: absolute;
-  top: 10%;
-  left: 10%;
+  top: 5%;
+  left: 5%;
+}
+
+.resource-item {
+  width: 20px;
+  height: 20px;
+  background-color: gold;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 10px;
+  color: black;
+  line-height: 20px;
+  user-select: none;
+  /* Ou podes usar ícones / imagens no futuro */
 }

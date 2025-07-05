@@ -18,3 +18,49 @@
   width: 100%;
   text-align: center;
 }
+
+.inventory {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  background-color: #f8f8f8;
+  width: 220px;          /* largura fixa para manter tamanho */
+  height: 70px;          /* altura fixa para manter tamanho */
+  margin: 15px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  user-select: none;
+  transition: background-color 0.3s ease;
+  justify-content: flex-start; /* alinhamento padrão */
+}
+
+.inventory.empty {
+  justify-content: center;  /* centraliza texto vazio */
+  font-style: italic;
+  color: #777;
+}
+
+
+.inventory-icon {
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.inventory-info {
+  flex-grow: 1;
+}
+
+.inventory-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}

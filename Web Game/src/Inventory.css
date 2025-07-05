@@ -1,0 +1,13 @@
+.resource-icon,
+.inventory-icon {
+  user-select: none;
+}
+
+.inventory {
+  margin-bottom: 20px;
+  background: #f0f0f0;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 8px;
+  font-family: sans-serif;
+}
