@@ -24,6 +24,14 @@ export default function App() {
   const intervalRef = useRef(null);
   const resourceIntervalRef = useRef(null);
 
+  // Função para determinar cores do timer baseado no tempo restante
+  const getTimerClass = (timeLeft, initialTime) => {
+    const percentage = timeLeft / initialTime;
+    if (percentage > 0.5) return 'safe';      // Verde: mais de 50%
+    if (percentage > 0.25) return 'warning';  // Amarelo: 25-50%
+    return 'danger';                          // Vermelho: menos de 25%
+  };
+
   // Função para determinar o intervalo de geração baseado no tempo restante
   const getResourceSpawnInterval = (timeLeft) => {
     if (timeLeft > 110) return 5000; // 3:00 - 1:50 = 5 segundos
@@ -211,7 +219,9 @@ export default function App() {
       </div>
 
       <div className="game-info">
-        <div className="timer">Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}</div>
+        <div className={`timer ${getTimerClass(timeLeft, initialTime)}`}>
+          Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+        </div>
         <Score score={score} />
       </div>
 

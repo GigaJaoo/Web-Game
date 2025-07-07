@@ -6,9 +6,27 @@ html, body, #root {
 
 body {
   display: flex;
-  justify-content: center; /* centro horizontal */
-  align-items: center;     /* centro vertical */
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+  
+  /* Background humanitário - Cores de paz e esperança */
+  background: linear-gradient(135deg, 
+    #74b9ff 0%,     /* Azul esperança */
+    #0984e3 25%,    /* Azul ONU */
+    #00b894 50%,    /* Verde paz */
+    #00cec9 75%,    /* Turquesa harmonia */
+    #6c5ce7 100%    /* Violeta solidariedade */
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Animação suave do background */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

@@ -1,28 +1,56 @@
 .score-container {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  background-color: #f0f8ff;
-  border: 2px solid #4287f5;
+  padding: 12px 24px;
+  border-radius: 12px;
+  
+  /* Glassmorphism effect */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   user-select: none;
-  min-width: 120px;
+  min-width: 140px;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+  transition: all 0.3s ease;
+}
+
+.score-container:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(31, 38, 135, 0.3);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .score-label {
   font-weight: 600;
   font-size: 1.1rem;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .score-value {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: #4287f5;
-  min-width: 30px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #FFD700;
+  min-width: 35px;
   text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+/* Animação quando o score muda */
+.score-value.updated {
+  animation: score-bounce 0.6s ease;
+  color: #00FF88;
+}
+
+@keyframes score-bounce {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); color: #00FF88; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); color: #FFD700; }
 }
