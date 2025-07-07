@@ -1,0 +1,28 @@
+.score-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  background-color: #f0f8ff;
+  border: 2px solid #4287f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  min-width: 120px;
+  justify-content: center;
+  gap: 8px;
+}
+
+.score-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.score-value {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #4287f5;
+  min-width: 30px;
+  text-align: center;
+}

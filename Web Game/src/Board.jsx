@@ -6,8 +6,8 @@ export default function Board({ map, player, rows, cols, resources, resourcesDat
     <div
       className="board"
       style={{
-        gridTemplateColumns: `repeat(${cols}, 40px)`,
-        gridTemplateRows: `repeat(${rows}, 40px)`
+        gridTemplateColumns: `repeat(${cols}, 35px)`,
+        gridTemplateRows: `repeat(${rows}, 35px)`
       }}
     >
       {map.map((row, y) =>
@@ -18,14 +18,18 @@ export default function Board({ map, player, rows, cols, resources, resourcesDat
           let className = 'cell';
           if (tile === 'center') className += ' center';
           if (tile === 'resource') className += ' resource';
+          if (tile === 'empty') className += ' empty';
           if (tile === 'cause') className += ' cause';
           if (tile === 'obstacle') className += ' obstacle';
+          if (tile === 'lake') className += ' lake';
+          if (tile === 'forest') className += ' forest';
+          if (tile === 'mountain') className += ' mountain';
 
           return (
             <div key={`${x}-${y}`} className={className}>
               {isPlayer && <div className="player" />}
               {resource && (
-                <span style={{ fontSize: '22px', lineHeight: '40px' }}>
+                <span className="resource-icon">
                   {resourcesData[resource.type].icon}
                 </span>
               )}

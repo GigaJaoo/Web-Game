@@ -3,31 +3,33 @@ import Board from './Board';
 import './App.css';
 import { initialMap, tileTypes } from './mapData.js';
 import Inventory from './Inventory';
+import Score from './Score';
 import { getRandomResourceType } from './resourceUtils';
 import { resourcesData } from './resourcesData.js';
 
 export default function App() {
-  const numRows = 15;
-  const numCols = 15;
-  const initialTime = 2 * 60; // 2 minutos
+  const numRows = 21;
+  const numCols = 21;
+  const initialTime = 3 * 60; // 3 minutos
 
   const [mapData, setMapData] = useState(initialMap);
   const [player, setPlayer] = useState({
-    position: { x: 7, y: 7 },
+    position: { x: 10, y: 10 },
     inventory: null,
   });
   const [resources, setResources] = useState([]);
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [gameStatus, setGameStatus] = useState('idle'); // 'idle', 'running', 'paused', 'ended'
+  const [score, setScore] = useState(0); // Novo estado para o score
   const intervalRef = useRef(null);
   const resourceIntervalRef = useRef(null);
 
   // Função para determinar o intervalo de geração baseado no tempo restante
   const getResourceSpawnInterval = (timeLeft) => {
-    if (timeLeft > 90) return 5000; // 2:00 - 1:30 = 5 segundos
-    if (timeLeft > 60) return 4000; // 1:30 - 1:00 = 4 segundos
-    if (timeLeft > 30) return 3000; // 1:00 - 0:30 = 3 segundos
-    return 2000; // 0:30 - 0:00 = 2 segundos
+    if (timeLeft > 110) return 5000; // 3:00 - 1:50 = 5 segundos
+    if (timeLeft > 80) return 4000; // 1:50 - 1:20 = 4 segundos
+    if (timeLeft > 45) return 3000; // 1:20 - 0:45 = 3 segundos
+    return 2000; // 0:45 - 0:00 = 2 segundos
   };
 
   // Controlador de tempo
@@ -68,7 +70,7 @@ export default function App() {
         clearInterval(resourceIntervalRef.current);
       }
     };
-  }, [gameStatus]); // Remover timeLeft da dependência
+  }, [gameStatus]);
 
   // Atualizar o intervalo apenas quando mudamos de faixa de tempo
   useEffect(() => {
@@ -115,7 +117,10 @@ export default function App() {
       const newX = Math.max(0, Math.min(numCols - 1, prev.position.x + dx));
       const newY = Math.max(0, Math.min(numRows - 1, prev.position.y + dy));
 
-      if (mapData[newY][newX] === tileTypes.OBSTACLE) return prev;
+      if (mapData[newY][newX] === tileTypes.OBSTACLE || 
+          mapData[newY][newX] === tileTypes.MOUNTAIN || 
+          mapData[newY][newX] === tileTypes.LAKE     || 
+          mapData[newY][newX] === tileTypes.FOREST) return prev;
 
       return {
         ...prev,
@@ -149,8 +154,16 @@ export default function App() {
 
       if (e.key === ' ' || e.code === 'Space') {
         const { x, y } = player.position;
-        if (mapData[y][x] === tileTypes.CAUSE && player.inventory !== null) {
-          setPlayer(prev => ({ ...prev, inventory: null }));
+        if (player.inventory !== null) {
+          if (mapData[y][x] === tileTypes.CAUSE) {
+            // Entregar em causa = 2 pontos
+            setPlayer(prev => ({ ...prev, inventory: null }));
+            setScore(prev => prev + 2);
+          } else if (mapData[y][x] === tileTypes.CENTER) {
+            // Entregar no centro = 1 ponto
+            setPlayer(prev => ({ ...prev, inventory: null }));
+            setScore(prev => prev + 1);
+          }
         }
       }
     };
@@ -164,7 +177,8 @@ export default function App() {
     setGameStatus('running');
     setTimeLeft(initialTime);
     setResources([]);
-    setPlayer({ position: { x: 7, y: 7 }, inventory: null });
+    setScore(0); // Reset do score
+    setPlayer({ position: { x: 10, y: 10 }, inventory: null });
   };
 
   const pauseGame = () => {
@@ -181,7 +195,8 @@ export default function App() {
     setGameStatus('idle');
     setTimeLeft(initialTime);
     setResources([]);
-    setPlayer({ position: { x: 7, y: 7 }, inventory: null });
+    setScore(0); // Reset do score
+    setPlayer({ position: { x: 10, y: 10 }, inventory: null });
   };
 
   return (
@@ -195,7 +210,10 @@ export default function App() {
         <button onClick={restartGame}>Restart</button>
       </div>
 
-      <div className="timer">Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}</div>
+      <div className="game-info">
+        <div className="timer">Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}</div>
+        <Score score={score} />
+      </div>
 
       <Inventory inventory={player.inventory} resourcesData={resourcesData} />
       <Board
