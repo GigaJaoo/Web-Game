@@ -64,3 +64,20 @@
   font-weight: 600;
   font-size: 1.1rem;
 }
+
+.controls {
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.timer {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}

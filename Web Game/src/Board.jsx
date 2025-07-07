@@ -1,8 +1,7 @@
-// Board.jsx
 import React from 'react';
 import './Board.css';
 
-export default function Board({ map, player, rows, cols, activeResource, resourcesData }) {
+export default function Board({ map, player, rows, cols, resources, resourcesData }) {
   return (
     <div
       className="board"
@@ -14,7 +13,7 @@ export default function Board({ map, player, rows, cols, activeResource, resourc
       {map.map((row, y) =>
         row.map((tile, x) => {
           const isPlayer = player.position.x === x && player.position.y === y;
-          const isResourceHere = activeResource && activeResource.x === x && activeResource.y === y;
+          const resource = resources.find(r => r.x === x && r.y === y);
 
           let className = 'cell';
           if (tile === 'center') className += ' center';
@@ -25,14 +24,9 @@ export default function Board({ map, player, rows, cols, activeResource, resourc
           return (
             <div key={`${x}-${y}`} className={className}>
               {isPlayer && <div className="player" />}
-              {isResourceHere && (
-                <span
-                  className="resource-icon"
-                  style={{ color: resourcesData[activeResource.type].color, fontSize: '20px' }}
-                  role="img"
-                  aria-label={resourcesData[activeResource.type].name}
-                >
-                  {resourcesData[activeResource.type].icon}
+              {resource && (
+                <span style={{ fontSize: '22px', lineHeight: '40px' }}>
+                  {resourcesData[resource.type].icon}
                 </span>
               )}
             </div>
@@ -42,4 +36,3 @@ export default function Board({ map, player, rows, cols, activeResource, resourc
     </div>
   );
 }
-

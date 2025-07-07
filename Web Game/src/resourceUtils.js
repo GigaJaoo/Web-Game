@@ -1,6 +1,6 @@
 import { resourceTypes } from './resourceTypes';
 
-export function getRandomResourceType() {
-  const index = Math.floor(Math.random() * resourceTypes.length);
-  return resourceTypes[index];
-}
+export const getRandomResourceType = () => {
+  const types = ['food', 'medical', 'clothing'];
+  return types[Math.floor(Math.random() * types.length)];
+};
