@@ -4,6 +4,8 @@ import './App.css';
 import { initialMap, tileTypes } from './mapData.js';
 import Inventory from './Inventory';
 import Score from './Score';
+import InfoPanel from './InfoPanel';
+import Ranking from './Ranking';
 import { getRandomResourceType } from './resourceUtils';
 import { resourcesData } from './resourcesData.js';
 
@@ -208,32 +210,38 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      <h1>Humanitarian Manager</h1>
+    <div className="game-layout">
+      <InfoPanel />
+      
+      <div className="app-container">
+        <h1>Humanitarian Manager</h1>
 
-      <div className="controls">
-        <button onClick={startGame} disabled={gameStatus === 'running'}>Start</button>
-        <button onClick={pauseGame} disabled={gameStatus !== 'running'}>Pause</button>
-        <button onClick={resumeGame} disabled={gameStatus !== 'paused'}>Resume</button>
-        <button onClick={restartGame}>Restart</button>
-      </div>
-
-      <div className="game-info">
-        <div className={`timer ${getTimerClass(timeLeft, initialTime)}`}>
-          Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+        <div className="controls">
+          <button onClick={startGame} disabled={gameStatus === 'running'}>Start</button>
+          <button onClick={pauseGame} disabled={gameStatus !== 'running'}>Pause</button>
+          <button onClick={resumeGame} disabled={gameStatus !== 'paused'}>Resume</button>
+          <button onClick={restartGame}>Restart</button>
         </div>
-        <Score score={score} />
+
+        <div className="game-info">
+          <div className={`timer ${getTimerClass(timeLeft, initialTime)}`}>
+            Time left: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
+          </div>
+          <Score score={score} />
+        </div>
+
+        <Inventory inventory={player.inventory} resourcesData={resourcesData} />
+        <Board
+          player={player}
+          map={mapData}
+          rows={numRows}
+          cols={numCols}
+          resources={resources}
+          resourcesData={resourcesData}
+        />
       </div>
 
-      <Inventory inventory={player.inventory} resourcesData={resourcesData} />
-      <Board
-        player={player}
-        map={mapData}
-        rows={numRows}
-        cols={numCols}
-        resources={resources}
-        resourcesData={resourcesData}
-      />
+      <Ranking currentScore={score} gameStatus={gameStatus} />
     </div>
   );
 }

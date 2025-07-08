@@ -167,9 +167,9 @@
 .player {
   width: 26px;
   height: 26px;
-  background: linear-gradient(45deg, #FF6B6B 0%, #FF8E8E 50%, #FF6B6B 100%);
+  background: linear-gradient(45deg, #6bdcff 0%, #8edbff8c 50%, #6bf5ff 100%);
   border-radius: 50%;
-  border: 2px solid #FF4757;
+  border: 2px solid #47eaff;
   position: absolute;
   top: 50%;
   left: 50%;

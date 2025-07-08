@@ -1,0 +1,181 @@
+.ranking-panel {
+  width: 380px; /* Aumentado de 340px para 380px */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-height: 700px;
+}
+
+.current-score-section h3,
+.rankings-section h3 {
+  margin: 0 0 15px 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.current-score {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 18px; /* Aumentado de 15px */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.score-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px; /* Aumentado de 15px */
+}
+
+.score-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.score-number {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.score-submission {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name-input {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.name-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.name-input:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.submit-btn {
+  padding: 10px 15px;
+  background: rgba(0, 184, 148, 0.8);
+  border: 1px solid rgba(0, 184, 148, 1);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: rgba(0, 184, 148, 1);
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rankings-table {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 50px 1fr 60px;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-body {
+  max-height: 420px; /* Aumentado de 320px */
+  overflow-y: auto;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 60px;
+  padding: 10px 15px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.table-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.rank-col {
+  text-align: center;
+  font-weight: 600;
+}
+
+.name-col {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score-col {
+  text-align: right;
+  font-weight: 600;
+  color: #FFD700;
+}
+
+.medal {
+  font-size: 16px;
+}
+
+/* Scrollbar personalizada */
+.table-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.table-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
