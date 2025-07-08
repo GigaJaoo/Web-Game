@@ -4,7 +4,7 @@ import './Ranking.css';
 export default function Ranking({ currentScore, gameStatus }) {
   const [playerName, setPlayerName] = useState('');
   
-  // Mock data for demonstration - you'll replace this with database later
+  //Exemplos
   const mockRankings = [
     { rank: 1, name: 'Ana Silva', score: 142 },
     { rank: 2, name: 'João Santos', score: 128 },
@@ -20,7 +20,6 @@ export default function Ranking({ currentScore, gameStatus }) {
 
   const handleSubmitScore = () => {
     if (playerName.trim() && currentScore > 0) {
-      // Here you'll implement database submission
       console.log('Submit score:', { name: playerName, score: currentScore });
       alert(`Score submitted!\n${playerName}: ${currentScore} points`);
       setPlayerName('');

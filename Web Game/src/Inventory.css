@@ -3,11 +3,61 @@
   user-select: none;
 }
 
+/* Inventory com estilo glassmorphism consistente */
 .inventory {
-  margin-bottom: 20px;
-  background: #f0f0f0;
-  padding: 10px;
-  width: fit-content;
-  border-radius: 8px;
-  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 12px;
+  
+  /* Glassmorphism igual aos outros componentes */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  
+  width: 260px;
+  height: 80px;
+  margin: 15px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  user-select: none;
+  transition: all 0.3s ease;
+  justify-content: flex-start;
+  
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Removido o hover effect do inventory */
+
+.inventory.empty {
+  justify-content: center;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.inventory-icon {
+  font-size: 32px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.inventory-info {
+  flex-grow: 1;
+}
+
+.inventory-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }

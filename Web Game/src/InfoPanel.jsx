@@ -53,7 +53,7 @@ export default function InfoPanel() {
             <div className="element-item">
               <span className="element-icon">🏛️</span>
               <div className="element-info">
-                <strong>Center (HQ)</strong>
+                <strong>Center of Operations</strong>
                 <p>Headquarters - centralized delivery, but only grants <strong>1 point</strong></p>
               </div>
             </div>
@@ -78,8 +78,12 @@ export default function InfoPanel() {
             <div className="terrain-grid">
               <div className="terrain-item">
                 <div className="terrain-sample terrain-ground"></div>
-                <span>Ground</span>
+                <span>Ground - Walkable</span>
               </div>
+            </div>
+            
+            <p><strong>Obstacles:</strong></p>
+            <div className="terrain-grid">
               <div className="terrain-item">
                 <div className="terrain-sample terrain-forest"></div>
                 <span>Forest</span>
