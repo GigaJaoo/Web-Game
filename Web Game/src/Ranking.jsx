@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { submitScore, getTopRankings } from './firebase';
 import './Ranking.css';
 
 export default function Ranking({ currentScore, gameStatus }) {
   const [playerName, setPlayerName] = useState('');
+  const [rankings, setRankings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  //Exemplos
+  // Dados de exemplo como fallback
   const mockRankings = [
     { rank: 1, name: 'Ana Silva', score: 142 },
     { rank: 2, name: 'João Santos', score: 128 },
@@ -18,11 +22,34 @@ export default function Ranking({ currentScore, gameStatus }) {
     { rank: 10, name: 'Tiago Ferreira', score: 32 }
   ];
 
-  const handleSubmitScore = () => {
+  // Carregar rankings
+  useEffect(() => {
+    loadRankings();
+  }, []);
+
+  const loadRankings = async () => {
+    setIsLoading(true);
+    const result = await getTopRankings();
+    if (result.success && result.rankings.length > 0) {
+      setRankings(result.rankings);
+    } else {
+      setRankings(mockRankings);
+    }
+    setIsLoading(false);
+  };
+
+  const handleSubmitScore = async () => {
     if (playerName.trim() && currentScore > 0) {
-      console.log('Submit score:', { name: playerName, score: currentScore });
-      alert(`Score submitted!\n${playerName}: ${currentScore} points`);
-      setPlayerName('');
+      setIsSubmitting(true);
+      const result = await submitScore(playerName.trim(), currentScore);
+      if (result.success) {
+        alert(`Score submitted!\n${playerName}: ${currentScore} points`);
+        setPlayerName('');
+        await loadRankings(); // Recarregar rankings
+      } else {
+        alert('Error submitting score. Please try again.');
+      }
+      setIsSubmitting(false);
     }
   };
 
@@ -45,13 +72,14 @@ export default function Ranking({ currentScore, gameStatus }) {
                 onChange={(e) => setPlayerName(e.target.value)}
                 maxLength={20}
                 className="name-input"
+                disabled={isSubmitting}
               />
               <button 
                 onClick={handleSubmitScore}
-                disabled={!playerName.trim() || currentScore === 0}
+                disabled={!playerName.trim() || currentScore === 0 || isSubmitting}
                 className="submit-btn"
               >
-                Submit Score
+                {isSubmitting ? 'Submitting...' : 'Submit Score'}
               </button>
             </div>
           )}
@@ -68,21 +96,25 @@ export default function Ranking({ currentScore, gameStatus }) {
           </div>
           
           <div className="table-body">
-            {mockRankings.map((entry) => (
-              <div key={entry.rank} className="table-row">
-                <span className="rank-col">
-                  {entry.rank <= 3 ? (
-                    <span className={`medal rank-${entry.rank}`}>
-                      {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : '🥉'}
-                    </span>
-                  ) : (
-                    entry.rank
-                  )}
-                </span>
-                <span className="name-col">{entry.name}</span>
-                <span className="score-col">{entry.score}</span>
-              </div>
-            ))}
+            {isLoading ? (
+              <div className="loading-message">Loading rankings...</div>
+            ) : (
+              rankings.map((entry, index) => (
+                <div key={entry.rank || index} className="table-row">
+                  <span className="rank-col">
+                    {entry.rank <= 3 ? (
+                      <span className={`medal rank-${entry.rank}`}>
+                        {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : '🥉'}
+                      </span>
+                    ) : (
+                      entry.rank
+                    )}
+                  </span>
+                  <span className="name-col">{entry.name}</span>
+                  <span className="score-col">{entry.score}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
