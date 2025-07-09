@@ -40,6 +40,15 @@ export default function InfoPanel() {
               special requests for specific resources may appear. Delivering the requested resource 
               type during these periods grants <strong>double points</strong>!
             </p>
+
+            <div className="credits-section">
+              <h5>👨‍💻 Development</h5>
+              <p>
+                This project was developed by <strong>João Miguel Pereira</strong>, 
+                a student of the Digital Game Development Engineering course at IPCA, 
+                as part of the Web Programming and Development curricular unit.
+              </p>
+            </div>
           </div>
         );
 
@@ -128,6 +137,7 @@ export default function InfoPanel() {
                   <span className="key">A</span>
                   <span className="key">D</span>
                 </div>
+                <span>Move player</span>
               </div>
               
               <div className="control-item">
@@ -137,6 +147,7 @@ export default function InfoPanel() {
                   <span className="key">←</span>
                   <span className="key">→</span>
                 </div>
+                <span>Move player</span>
               </div>
             </div>
 

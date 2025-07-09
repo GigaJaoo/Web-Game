@@ -92,6 +92,28 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* 🔥 NOVO: Seção de créditos - MESMO ESTILO que o resto */
+.credits-section {
+  margin-top: 20px;
+}
+
+.credits-section h5 {
+  margin: 15px 0 8px 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+}
+
+.credits-section p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.credits-section strong {
+  color: white;
+  font-weight: 600;
+}
+
 /* Elementos do jogo */
 .element-item {
   display: flex;
