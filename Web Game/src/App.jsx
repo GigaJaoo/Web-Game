@@ -23,8 +23,59 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [gameStatus, setGameStatus] = useState('idle'); // 'idle', 'running', 'paused', 'ended'
   const [score, setScore] = useState(0); // Novo estado para o score
+  
+  // 🔥 NOVO: Estado para eventos de bónus
+  const [bonusEvent, setBonusEvent] = useState({
+    active: false,
+    resourceType: null,
+    timeRemaining: 0
+  });
+  
   const intervalRef = useRef(null);
   const resourceIntervalRef = useRef(null);
+
+  // 🔥 NOVO: Função para verificar se deve haver um evento ativo
+  const checkForBonusEvent = (currentTime) => {
+    // Períodos de eventos: 2:30-2:00 (150-120), 1:30-1:00 (90-60), 0:30-0:00 (30-0)
+    const eventPeriods = [
+      { start: 150, end: 120 }, // 2:30 - 2:00
+      { start: 90, end: 60 },   // 1:30 - 1:00
+      { start: 30, end: 0 }     // 0:30 - 0:00
+    ];
+
+    const currentPeriod = eventPeriods.find(period => 
+      currentTime <= period.start && currentTime > period.end
+    );
+
+    if (currentPeriod) {
+      setBonusEvent(prev => {
+        // Se já há um evento ativo do mesmo período, apenas atualiza o tempo
+        if (prev.active && prev.timeRemaining > 0) {
+          return {
+            ...prev,
+            timeRemaining: currentTime - currentPeriod.end
+          };
+        }
+        // Se é um novo evento, seleciona um novo tipo de recurso
+        else {
+          const resourceTypes = Object.keys(resourcesData);
+          const randomResourceType = resourceTypes[Math.floor(Math.random() * resourceTypes.length)];
+          return {
+            active: true,
+            resourceType: randomResourceType,
+            timeRemaining: currentTime - currentPeriod.end
+          };
+        }
+      });
+    } else {
+      // Não há evento ativo
+      setBonusEvent({
+        active: false,
+        resourceType: null,
+        timeRemaining: 0
+      });
+    }
+  };
 
   // Função para determinar cores do timer baseado no tempo restante
   const getTimerClass = (timeLeft, initialTime) => {
@@ -42,18 +93,23 @@ export default function App() {
     return 2000; // 0:45 - 0:00 = 2 segundos
   };
 
-  // Controlador de tempo
+  // Controlador de tempo - 🔥 MODIFICADO: Adicionada verificação de eventos
   useEffect(() => {
     if (gameStatus === 'running') {
       intervalRef.current = setInterval(() => {
         setTimeLeft(prev => {
-          if (prev <= 1) {
+          const newTime = prev - 1;
+          
+          // 🔥 NOVO: Verificar eventos de bónus
+          checkForBonusEvent(newTime);
+          
+          if (newTime <= 0) {
             clearInterval(intervalRef.current);
             clearInterval(resourceIntervalRef.current);
             setGameStatus('ended');
             return 0;
           }
-          return prev - 1;
+          return newTime;
         });
       }, 1000);
     }
@@ -152,7 +208,7 @@ export default function App() {
     }
   }, [player.position, resources]);
 
-  // Entregar recurso
+  // Entregar recurso - 🔥 MODIFICADO: Adicionado sistema de bónus
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameStatus !== 'running') return;
@@ -165,14 +221,21 @@ export default function App() {
       if (e.key === ' ' || e.code === 'Space') {
         const { x, y } = player.position;
         if (player.inventory !== null) {
+          // 🔥 NOVO: Verificar se há bónus ativo para este tipo de recurso
+          const hasBonus = bonusEvent.active && bonusEvent.resourceType === player.inventory;
+          
           if (mapData[y][x] === tileTypes.CAUSE) {
-            // Entregar em causa = 2 pontos
+            // Entregar em causa = 2 pontos (4 com bónus)
+            const basePoints = 2;
+            const points = hasBonus ? basePoints * 2 : basePoints;
             setPlayer(prev => ({ ...prev, inventory: null }));
-            setScore(prev => prev + 2);
+            setScore(prev => prev + points);
           } else if (mapData[y][x] === tileTypes.CENTER) {
-            // Entregar no centro = 1 ponto
+            // Entregar no centro = 1 ponto (2 com bónus)
+            const basePoints = 1;
+            const points = hasBonus ? basePoints * 2 : basePoints;
             setPlayer(prev => ({ ...prev, inventory: null }));
-            setScore(prev => prev + 1);
+            setScore(prev => prev + points);
           }
         }
       }
@@ -180,15 +243,16 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [player, mapData, gameStatus]);
+  }, [player, mapData, gameStatus, bonusEvent]); // 🔥 MODIFICADO: Adicionada dependência bonusEvent
 
-  // Botões de controlo
+  // Botões de controlo - 🔥 MODIFICADO: Reset do bonusEvent
   const startGame = () => {
     setGameStatus('running');
     setTimeLeft(initialTime);
     setResources([]);
     setScore(0); // Reset do score
     setPlayer({ position: { x: 10, y: 10 }, inventory: null });
+    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 }); // 🔥 NOVO
   };
 
   const pauseGame = () => {
@@ -207,6 +271,7 @@ export default function App() {
     setResources([]);
     setScore(0); // Reset do score
     setPlayer({ position: { x: 10, y: 10 }, inventory: null });
+    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 }); // 🔥 NOVO
   };
 
   return (
@@ -230,7 +295,43 @@ export default function App() {
           <Score score={score} />
         </div>
 
-        <Inventory inventory={player.inventory} resourcesData={resourcesData} />
+        <div className="inventory-row">
+          <Inventory inventory={player.inventory} resourcesData={resourcesData} />
+          
+          {/* 🔥 NOVO: Painel de evento sempre visível */}
+          <div className={`event-panel ${bonusEvent.active ? 'active' : 'inactive'}`}>
+            {bonusEvent.active ? (
+              <>
+                <div className="bonus-header">
+                  <span className="bonus-icon">⚡</span>
+                  SPECIAL REQUEST
+                  <span className="bonus-icon">⚡</span>
+                </div>
+                <div className="bonus-content">
+                  <div className="bonus-resource">
+                    <span 
+                      className="bonus-resource-icon"
+                      style={{ backgroundColor: resourcesData[bonusEvent.resourceType]?.color }}
+                    >
+                      {resourcesData[bonusEvent.resourceType]?.icon}
+                    </span>
+                    <span className="bonus-resource-name">
+                      {resourcesData[bonusEvent.resourceType]?.name}
+                    </span>
+                  </div>
+                  <div className="bonus-details">
+                    <div className="bonus-multiplier">x2 POINTS</div>
+                    <div className="bonus-timer">
+                      {Math.floor(bonusEvent.timeRemaining / 60)}:{String(bonusEvent.timeRemaining % 60).padStart(2, '0')}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="event-empty">No Special Requests</div>
+            )}
+          </div>
+        </div>
         <Board
           player={player}
           map={mapData}

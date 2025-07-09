@@ -61,28 +61,164 @@
   -webkit-text-fill-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Inventory melhorado */
-.inventory {
+/* 🔥 NOVO: Container para inventário e painel de evento lado a lado */
+.inventory-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+/* 🔥 NOVO: Painel de evento - CÓPIA EXATA do inventory.css */
+.event-panel {
+  /* CÓPIA EXATA de todas as propriedades do inventory.css */
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  border-radius: 15px;
-  
-  /* Glassmorphism para inventory */
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  
   width: 260px;
   height: 80px;
   margin: 15px auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
   user-select: none;
   transition: all 0.3s ease;
   justify-content: flex-start;
-  
   box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  
+  /* Propriedades adicionais para o evento */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estado inativo - EXATAMENTE igual ao inventory.css .empty */
+.event-panel.inactive {
+  justify-content: center;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+/* Estado ativo - sobrepor apenas o que é necessário */
+.event-panel.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 193, 7, 0.3) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.6);
+  box-shadow: 
+    0 8px 32px rgba(255, 215, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.2);
+  animation: bonus-glow 2s ease-in-out infinite;
+  justify-content: flex-start;
+  color: #fff;
+}
+
+.event-panel.active::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: bonus-shine 3s ease-in-out infinite;
+}
+
+/* Layout interno do evento ativo */
+.event-panel.active {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Header do evento - mais compacto */
+.event-panel .bonus-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.event-panel .bonus-icon {
+  font-size: 1rem;
+  animation: bonus-pulse 1s ease-in-out infinite;
+}
+
+/* Conteúdo principal do evento */
+.event-panel .bonus-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  gap: 8px;
+}
+
+.event-panel .bonus-resource {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-panel .bonus-resource-icon {
+  font-size: 24px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.event-panel .bonus-resource-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.event-panel .bonus-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.event-panel .bonus-multiplier {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.event-panel .bonus-timer {
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .inventory.empty {
@@ -218,4 +354,28 @@
 @keyframes pulse-danger {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
+}
+
+/* Animações do evento */
+@keyframes bonus-glow {
+  0%, 100% { 
+    box-shadow: 
+      0 8px 32px rgba(255, 215, 0, 0.3),
+      0 0 20px rgba(255, 215, 0, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      0 8px 32px rgba(255, 215, 0, 0.5),
+      0 0 30px rgba(255, 215, 0, 0.4);
+  }
+}
+
+@keyframes bonus-shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+@keyframes bonus-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }

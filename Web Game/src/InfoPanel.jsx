@@ -34,6 +34,12 @@ export default function InfoPanel() {
               As time passes, resources appear more quickly, 
               increasing the intensity and challenge of the game!
             </p>
+            
+            <p>
+              During certain periods, 
+              special requests for specific resources may appear. Delivering the requested resource 
+              type during these periods grants <strong>double points</strong>!
+            </p>
           </div>
         );
 
@@ -71,6 +77,14 @@ export default function InfoPanel() {
               <div className="element-info">
                 <strong>Resources</strong>
                 <p>Food, medicine, clothing - collected automatically</p>
+              </div>
+            </div>
+
+            <div className="element-item special-request-item">
+              <span className="element-icon">⚡</span>
+              <div className="element-info">
+                <strong>Special Requests</strong>
+                <p>Delivering the requested resource grants <strong>double points</strong></p>
               </div>
             </div>
 
@@ -114,7 +128,15 @@ export default function InfoPanel() {
                   <span className="key">A</span>
                   <span className="key">D</span>
                 </div>
-                <span>Move player</span>
+              </div>
+              
+              <div className="control-item">
+                <div className="key-group">
+                  <span className="key">↑</span>
+                  <span className="key">↓</span>
+                  <span className="key">←</span>
+                  <span className="key">→</span>
+                </div>
               </div>
             </div>
 
@@ -166,6 +188,7 @@ export default function InfoPanel() {
                 <li>You can only carry one resource at a time</li>
                 <li>Causes give more points but are farther away</li>
                 <li>Time is precious - plan your routes!</li>
+                <li>Watch out for Special Requests - they can double your points!</li>
               </ul>
             </div>
           </div>
