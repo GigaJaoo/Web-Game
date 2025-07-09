@@ -146,7 +146,7 @@ export default function InfoPanel() {
                 <div className="key-group">
                   <span className="key space">Space</span>
                 </div>
-                <span>Deliver resource (when on cause/center)</span>
+                <span>Deliver resource (when on top of a cause/center)</span>
               </div>
             </div>
 
@@ -184,7 +184,7 @@ export default function InfoPanel() {
             <div className="tips-section">
               <h5>💡 Tips</h5>
               <ul>
-                <li>Resources are collected automatically</li>
+                <li>Resources are collected automatically when you walk on them</li>
                 <li>You can only carry one resource at a time</li>
                 <li>Causes give more points but are farther away</li>
                 <li>Time is precious - plan your routes!</li>
