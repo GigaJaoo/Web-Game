@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Web-Game/',  // ← Confirma o nome do repositório
+  base: './',  // ← Path relativo (funciona em qualquer lugar)
   build: {
     outDir: 'dist',
   },
