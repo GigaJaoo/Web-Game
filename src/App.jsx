@@ -282,6 +282,7 @@ export default function App() {
       
       <div className="app-container">
         <h1>Humanitarian Manager</h1>
+        <h2>Olá Mundo</h2>
 
         <div className="controls">
           <button onClick={startGame} disabled={gameStatus === 'running'}>Start</button>
