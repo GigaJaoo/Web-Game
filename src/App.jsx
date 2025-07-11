@@ -24,7 +24,7 @@ export default function App() {
   const [gameStatus, setGameStatus] = useState('idle'); // 'idle', 'running', 'paused', 'ended'
   const [score, setScore] = useState(0); // Novo estado para o score
   
-  // 🔥 NOVO: Estado para eventos de bónus
+  // Estado para eventos de bónus
   const [bonusEvent, setBonusEvent] = useState({
     active: false,
     resourceType: null,
@@ -34,7 +34,7 @@ export default function App() {
   const intervalRef = useRef(null);
   const resourceIntervalRef = useRef(null);
 
-  // 🔥 NOVO: Função para verificar se deve haver um evento ativo
+  // Função para verificar se deve haver um evento ativo
   const checkForBonusEvent = (currentTime) => {
     // Períodos de eventos: 2:30-2:00 (150-120), 1:30-1:00 (90-60), 0:30-0:00 (30-0)
     const eventPeriods = [
@@ -93,14 +93,14 @@ export default function App() {
     return 2000; // 0:45 - 0:00 = 2 segundos
   };
 
-  // Controlador de tempo - 🔥 MODIFICADO: Adicionada verificação de eventos
+  // Controlador de tempo 
   useEffect(() => {
     if (gameStatus === 'running') {
       intervalRef.current = setInterval(() => {
         setTimeLeft(prev => {
           const newTime = prev - 1;
           
-          // 🔥 NOVO: Verificar eventos de bónus
+          // Verificar eventos de bónus
           checkForBonusEvent(newTime);
           
           if (newTime <= 0) {
@@ -157,6 +157,7 @@ export default function App() {
     }
   }, [timeLeft, gameStatus]);
 
+  // Gerar recursos
   const generateResource = () => {
     const emptyTiles = [];
     for (let y = 0; y < numRows; y++) {
@@ -176,6 +177,7 @@ export default function App() {
     setResources(prev => [...prev, { x: randomTile.x, y: randomTile.y, type: resourceType }]);
   };
 
+  // Mexer o Player
   const movePlayer = (dx, dy) => {
     if (gameStatus !== 'running') return;
 
@@ -208,7 +210,7 @@ export default function App() {
     }
   }, [player.position, resources]);
 
-  // Entregar recurso - 🔥 MODIFICADO: Adicionado sistema de bónus
+  // Entregar recurso
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (gameStatus !== 'running') return;
@@ -221,7 +223,7 @@ export default function App() {
       if (e.key === ' ' || e.code === 'Space') {
         const { x, y } = player.position;
         if (player.inventory !== null) {
-          // 🔥 NOVO: Verificar se há bónus ativo para este tipo de recurso
+          // Verificar se há bónus ativo para este tipo de recurso
           const hasBonus = bonusEvent.active && bonusEvent.resourceType === player.inventory;
           
           if (mapData[y][x] === tileTypes.CAUSE) {
@@ -243,16 +245,16 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [player, mapData, gameStatus, bonusEvent]); // 🔥 MODIFICADO: Adicionada dependência bonusEvent
+  }, [player, mapData, gameStatus, bonusEvent]); // Adicionada dependência bonusEvent
 
-  // Botões de controlo - 🔥 MODIFICADO: Reset do bonusEvent
+  // Botões de controlo 
   const startGame = () => {
     setGameStatus('running');
     setTimeLeft(initialTime);
     setResources([]);
     setScore(0); // Reset do score
     setPlayer({ position: { x: 10, y: 10 }, inventory: null });
-    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 }); // 🔥 NOVO
+    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 }); 
   };
 
   const pauseGame = () => {
@@ -271,7 +273,7 @@ export default function App() {
     setResources([]);
     setScore(0); // Reset do score
     setPlayer({ position: { x: 10, y: 10 }, inventory: null });
-    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 }); // 🔥 NOVO
+    setBonusEvent({ active: false, resourceType: null, timeRemaining: 0 });
   };
 
   return (
@@ -298,7 +300,7 @@ export default function App() {
         <div className="inventory-row">
           <Inventory inventory={player.inventory} resourcesData={resourcesData} />
           
-          {/* 🔥 NOVO: Painel de evento sempre visível */}
+          {/* Painel de evento sempre visível */}
           <div className={`event-panel ${bonusEvent.active ? 'active' : 'inactive'}`}>
             {bonusEvent.active ? (
               <>
